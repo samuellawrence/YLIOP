@@ -25,6 +25,7 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.AuthorizationScope;
+import springfox.documentation.service.ClientCredentialsGrant;
 import springfox.documentation.service.GrantType;
 import springfox.documentation.service.OAuth;
 import springfox.documentation.service.SecurityReference;
@@ -89,15 +90,16 @@ public class SwaggerConfiguration {
      }
 
      private SecurityScheme securitySchema() {
-        GrantType grantType = new AuthorizationCodeGrantBuilder()
-        .tokenEndpoint(new TokenEndpoint(AUTH_SERVER + "/token", "oauthtoken"))
-        .tokenRequestEndpoint(
-          new TokenRequestEndpoint(AUTH_SERVER + "/authorize", CLIENT_ID, CLIENT_ID))
-        .build();
+//        GrantType grantType = new AuthorizationCodeGrantBuilder()
+//        .tokenEndpoint(new TokenEndpoint(AUTH_SERVER + "/token", "oauthtoken"))
+//        .tokenRequestEndpoint(
+//          new TokenRequestEndpoint(AUTH_SERVER + "/authorize", CLIENT_ID, CLIENT_ID))
+//        .build();
 //        GrantType grantType = new AuthorizationCodeGrantBuilder().tokenEndpoint(new Tok
 
         //GrantType grantType = new ResourceOwnerPasswordCredentialsGrant(AUTH_SERVER + "/token");
 
+    	GrantType grantType = new ClientCredentialsGrant(AUTH_SERVER + "/token");
         SecurityScheme oauth = new OAuthBuilder().name("spring_oauth")
         .grantTypes(Arrays.asList(grantType))
         .scopes(Arrays.asList(scopes()))
@@ -148,7 +150,8 @@ public class SwaggerConfiguration {
     private Predicate<String> paths() {
         // Match all path except /error
         return Predicates.and(
-        PathSelectors.regex("/private.*"),
+     //   PathSelectors.regex("/private.*"),
+        PathSelectors.regex("/personnel.*"),
         Predicates.not(PathSelectors.regex("/error.*")));
     }
 }

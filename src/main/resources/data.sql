@@ -1,8 +1,16 @@
 insert into personnel
-values(10001,'Ranga', 'E1234567');
-
+values(10001,'Ranga', '03024339202','Father', '01423382983', 'E1234567');
+    
 insert into personnel
-values(10002,'Ravi', 'A1234568');
+values(10002, 'Ravi', '0102039202', 'Sister', '01829382981','A1234568');
+
+--
+--insert into rfidlogs
+--values('A1234568', 'IN', '');
+--
+--insert into rfidlogs
+--values('E1234567', 'OUT', '');
+
 
 insert into role
 values(1,'Admin');

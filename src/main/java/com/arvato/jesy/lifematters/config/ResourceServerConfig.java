@@ -22,7 +22,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .and()
             .authorizeRequests()
                 .antMatchers("/","/home","/register","/login").permitAll()
-                .antMatchers("/private/**").access("#oauth2.hasScope('trust')");
+                .antMatchers("/private/**").access("#oauth2.hasScope('trust')")
+                .antMatchers("/personnel/**").permitAll();
     }
 
 

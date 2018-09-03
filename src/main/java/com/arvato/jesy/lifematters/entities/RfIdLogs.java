@@ -1,6 +1,10 @@
 package com.arvato.jesy.lifematters.entities;
 
+import java.sql.Date;
+
 import javax.persistence.Entity;
+
+import org.springframework.data.annotation.LastModifiedDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,14 +18,12 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Personnel extends BaseEntity{
+public class RfIdLogs extends BaseEntity{
+	private static final long serialVersionUID = 1L;
 
-    private static final long serialVersionUID = 1L;
-    
-    private String name;
-    private String phoneNumber;
-    private String emergencyContact;
-    private String emergencyContactNumber;
-    private String rfId;
-    
+	private String rfId;
+	private String status;
+	
+	@LastModifiedDate
+	private Date lastModified;
 }
