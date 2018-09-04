@@ -1,6 +1,7 @@
 package com.arvato.jesy.lifematters.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,6 +23,8 @@ public class Personnel extends BaseEntity{
     private String phoneNumber;
     private String emergencyContact;
     private String emergencyContactNumber;
-    private String rfId;
+    
+    @OneToOne
+    private RfIdLog rfLog;
     
 }
