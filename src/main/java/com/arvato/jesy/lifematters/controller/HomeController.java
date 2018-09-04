@@ -1,9 +1,11 @@
 package com.arvato.jesy.lifematters.controller;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 import com.arvato.jesy.lifematters.entities.Role;
 import com.arvato.jesy.lifematters.entities.User;
+import com.arvato.jesy.lifematters.services.SheetService;
 import com.arvato.jesy.lifematters.services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +20,18 @@ public class HomeController {
 
 
 	@Autowired
-	private UserService userService;
+    private UserService userService;
+    
+    @Autowired
+    private SheetService sheetService;
   
     @GetMapping(value = "/")
     public String index() {
+        try {
+			sheetService.fillSheet();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
         return "Hello world";
     }
 
