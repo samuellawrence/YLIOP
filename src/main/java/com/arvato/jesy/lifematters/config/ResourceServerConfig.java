@@ -19,11 +19,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             .headers()
                 .frameOptions()
                 .disable()
-                .and()
+                .and() 
             .authorizeRequests()
                 .antMatchers("/","/home","/register","/login").permitAll()
                 .antMatchers("/private/**").access("#oauth2.hasScope('trust')")
-                .antMatchers("/personnel/**").permitAll();
+                .antMatchers("/arvato/**").access("#oauth2.hasScope('trust')");
     }
 
 

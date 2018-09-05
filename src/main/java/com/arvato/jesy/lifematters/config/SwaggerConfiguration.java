@@ -142,16 +142,16 @@ public class SwaggerConfiguration {
 
 	// Describe your apis
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("Your life is our priority REST APIs")
-                .description("This page lists all the rest apis for YLIOP App.").version("1.0-SNAPSHOT").build();
+        return new ApiInfoBuilder().title("Arvato Alarm REST API")
+                .description("This page lists all the rest apis for Arvato Alarm App.").version("1.0-SNAPSHOT").build();
     }
 
     // Only select apis that matches the given Predicates.
     private Predicate<String> paths() {
         // Match all path except /error
         return Predicates.and(
-     //   PathSelectors.regex("/private.*"),
-        PathSelectors.regex("/personnel.*"),
+        //PathSelectors.regex("/private.*"),
+        PathSelectors.regex("/arvato.*"),
         Predicates.not(PathSelectors.regex("/error.*")));
     }
 }

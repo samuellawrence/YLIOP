@@ -1,10 +1,12 @@
 package com.arvato.jesy.lifematters.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 import com.arvato.jesy.lifematters.entities.Personnel;
 import com.arvato.jesy.lifematters.repositories.PersonnelRepository;
+import com.arvato.jesy.lifematters.services.SheetService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,28 +24,50 @@ import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
 
 @RestController
-@Api(value = "/", description = "Personnel Profile", produces = "application/json")
+@Api(value = "/arvato", produces = "application/json")
 public class PersonnelResource {
 
     @Autowired
     private PersonnelRepository personnelRepository;
-
-    @GetMapping("/personnel")
-    @ApiOperation(value = "List personnel", response = Personnel.class)
+    
+    @Autowired
+    private SheetService sheetService;
+  
+    @GetMapping("/arvato/employees")
+    @ApiOperation(value = "List employees", response = Personnel.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "All personnel details retrived", response = Personnel.class),
+            @ApiResponse(code = 200, message = "All employee details retrived", response = Personnel.class),
             @ApiResponse(code = 500, message = "Internal Server Error"),
-            @ApiResponse(code = 404, message = "Personnel not found") })
+            @ApiResponse(code = 404, message = "Employee not found") })
     public List<Personnel> get() {
         return personnelRepository.findAll();
+    } 
+    
+    @GetMapping("/arvato/alarm")
+    @ApiOperation(value = "Panic alarm")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Panic situation altered"),
+            @ApiResponse(code = 500, message = "Internal Server Error") })
+    public ResponseEntity<Object> alarm() throws IOException {
+    	sheetService.fillSheet();
+		return ResponseEntity.ok("Panic situation altered");
     }
-
-    @GetMapping("/personnel/{id}")
-    @ApiOperation(value = "Get personnel", response = Personnel.class)
+    
+    @PostMapping("/arvato/register/employee")
+    @ApiOperation(value = "Register employee")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Employee Details Created"),
+            @ApiResponse(code = 500, message = "Internal Server Error") })
+    public ResponseEntity<Object> create(@RequestBody Personnel personnel) {
+        Personnel savedPersonnel = personnelRepository.save(personnel);
+        return ResponseEntity.ok(savedPersonnel);
+    }
+    
+    
+    @GetMapping("/arvato/employee/{id}")
+    @ApiOperation(value = "Get employee", response = Personnel.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Personnel Details Retrived", response = Personnel.class),
+            @ApiResponse(code = 200, message = "Employee Details Retrived", response = Personnel.class),
             @ApiResponse(code = 500, message = "Internal Server Error"),
-            @ApiResponse(code = 404, message = "Personnel not found") })
+            @ApiResponse(code = 404, message = "Employee not found") })
     public Personnel get(@PathVariable long id) {
         Optional<Personnel> student = personnelRepository.findById(id);
 
@@ -53,27 +77,18 @@ public class PersonnelResource {
         return student.get();
     }
 
-    @DeleteMapping("/personnel/{id}")
-    @ApiOperation(value = "Delete personnel")
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "Personnel Details Deleted"),
+    @DeleteMapping("/arvato/employee/{id}")
+    @ApiOperation(value = "Delete employee")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Employee Details Deleted"),
             @ApiResponse(code = 500, message = "Internal Server Error"),
-            @ApiResponse(code = 404, message = "Personnel not found") })
+            @ApiResponse(code = 404, message = "Employee not found") })
     public void delete(@PathVariable long id) {
         personnelRepository.deleteById(id);
     }
 
-    @PostMapping("/personnel")
-    @ApiOperation(value = "Create personnel")
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "Personnel Details Created"),
-            @ApiResponse(code = 500, message = "Internal Server Error") })
-    public ResponseEntity<Object> create(@RequestBody Personnel personnel) {
-        Personnel savedPersonnel = personnelRepository.save(personnel);
-        return ResponseEntity.ok(savedPersonnel);
-    }
-
-    @PutMapping("/personnel/{id}")
-    @ApiOperation(value = "Update personnel")
-    @ApiResponses(value = { @ApiResponse(code = 200, message = "Personnel Details Updated"),
+    @PutMapping("/arvato/employee/{id}")
+    @ApiOperation(value = "Update employee")
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Employee Details Updated"),
             @ApiResponse(code = 500, message = "Internal Server Error") })
     public ResponseEntity<Object> update(@RequestBody Personnel personnel, @PathVariable long id) {
         Optional<Personnel> personnelOptional = personnelRepository.findById(id);

@@ -27,11 +27,6 @@ public class HomeController {
   
     @GetMapping(value = "/")
     public String index() {
-        try {
-			sheetService.fillSheet();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
         return "Hello world";
     }
 
